@@ -11,6 +11,7 @@ export function activate() {
     let lastStatus = '';
     let scheduled;
     let dialogOpen = false;
+    let applyFeedbackTimer;
     const controller = createController(getContext, text => {
         lastStatus = text;
         if (panel) panel.querySelector('[data-status]').textContent = text;
@@ -39,7 +40,7 @@ export function activate() {
         panel.querySelector('[data-enabled]').checked = config.enabled;
         populate(panel.querySelector('[data-default]'), '기본 연결 프로필을 선택하세요', config.defaultId, profiles);
         const pin = panel.querySelector('[data-pin]');
-        populate(pin, '예외 없음 → 기본 B 사용', hasChat(context) ? context.chatMetadata?.[KEY]?.profileId : '', profiles);
+        populate(pin, '별도 지정 없음 → 기본 연결 프로필 사용', hasChat(context) ? context.chatMetadata?.[KEY]?.profileId : '', profiles);
         pin.disabled = !hasChat(context);
         panel.querySelector('[data-chat]').textContent = hasChat(context)
             ? `현재 채팅: ${context.chatId}` : '열린 채팅 없음 · 채팅을 열면 예외를 지정할 수 있습니다.';
@@ -60,13 +61,13 @@ export function activate() {
                 <input type="checkbox" data-enabled><span>자동 전환 사용</span>
             </label>
             <div class="chat-profile-fields">
-                <label class="chat-profile-field"><span>기본 연결 프로필 B</span>
+                <label class="chat-profile-field"><span>기본 연결 프로필</span>
                     <select class="text_pole" data-default></select>
                 </label>
-                <label class="chat-profile-field"><span>이 채팅의 예외 프로필 A</span>
+                <label class="chat-profile-field"><span>채팅 내 별도의 연결 프로필</span>
                     <select class="text_pole" data-pin></select>
                 </label>
-                <small>예외가 없는 채팅에서는 기본 B를 사용합니다.</small>
+                <small>예외가 없는 채팅에서는 기본 연결 프로필을 사용합니다.</small>
             </div>
             <div data-status class="chat-profile-status" role="status" aria-live="polite"></div>
             <footer class="chat-profile-actions">
@@ -98,7 +99,25 @@ export function activate() {
             try { await saving; }
             catch { globalThis.toastr?.error('채팅 예외 저장에 실패했습니다. 다시 선택하세요.'); }
         });
-        panel.querySelector('[data-apply]').addEventListener('click', () => { void controller.request(); });
+        panel.querySelector('[data-apply]').addEventListener('click', async () => {
+            const button = panel.querySelector('[data-apply]');
+            if (button.disabled) return;
+            clearTimeout(applyFeedbackTimer);
+            button.disabled = true;
+            button.setAttribute('aria-busy', 'true');
+            button.textContent = '확인 중…';
+            try {
+                // Keep quick no-op checks visible too; do not claim a backend
+                // connection succeeded just because the profile is selected.
+                await Promise.all([controller.request(), new Promise(resolve => setTimeout(resolve, 250))]);
+                button.textContent = /^(기본 연결 프로필|채팅 내 별도의 연결 프로필):/.test(lastStatus)
+                    ? '✓ 적용 확인' : '상태를 확인하세요';
+            } finally {
+                button.disabled = false;
+                button.removeAttribute('aria-busy');
+                applyFeedbackTimer = setTimeout(() => { button.textContent = '현재 채팅에 적용'; }, 1600);
+            }
+        });
         render();
     }
 

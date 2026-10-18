@@ -64,5 +64,13 @@
     font: inherit;
     line-height: 1.3;
     border-radius: 6px;
+    transition: transform 100ms ease, filter 100ms ease, opacity 100ms ease;
+}
+#chat-profile-default button.chat-profile-apply:not(:disabled):hover { filter: brightness(1.12); }
+#chat-profile-default button.chat-profile-apply:not(:disabled):active { transform: translateY(1px) scale(0.97); }
+#chat-profile-default button.chat-profile-apply:disabled { cursor: progress; opacity: 0.65; }
+@media (prefers-reduced-motion: reduce) {
+    #chat-profile-default button.chat-profile-apply { transition: none; }
+    #chat-profile-default button.chat-profile-apply:not(:disabled):active { transform: none; }
 }
 #chat-profile-default-menu button { width: 100%; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; font: inherit; }

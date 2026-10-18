@@ -15,7 +15,7 @@ export function hasChat(context) {
 export function resolveTarget(context) {
     const config = settings(context);
     if (!config.enabled) return { idle: '자동 전환 꺼짐' };
-    if (!config.defaultId) return { idle: '먼저 기본 연결 프로필 B를 선택하세요.' };
+    if (!config.defaultId) return { idle: '먼저 기본 연결 프로필을 선택하세요.' };
     // Regex presets in native profiles reload the chat, even on the home screen
     // in ST 1.18. Defer all profile application until a real chat is open.
     if (!hasChat(context)) return { idle: '채팅을 열면 해당 연결 프로필을 적용합니다.' };
@@ -23,15 +23,15 @@ export function resolveTarget(context) {
     const pin = hasChat(context) ? context.chatMetadata?.[KEY]?.profileId : '';
     const pinned = pin && profiles.find(p => p.id === pin);
     const target = pinned || profiles.find(p => p.id === config.defaultId);
-    if (!target) throw new Error('기본 연결 프로필을 찾을 수 없습니다. 기본 B를 다시 선택하세요.');
+    if (!target) throw new Error('기본 연결 프로필을 찾을 수 없습니다. 기본 연결 프로필을 다시 선택하세요.');
     // The native /profile command reserves this literal for deselection.
     if (!target.name || target.name === '<None>') {
         throw new Error('이 연결 프로필의 이름은 사용할 수 없습니다. 프로필 이름을 변경하세요.');
     }
     return {
         target,
-        kind: pinned ? '이 채팅의 예외' : '기본',
-        warning: pin && !pinned ? '이 채팅의 예외 프로필이 삭제되었습니다. 기본 B를 적용합니다.' : '',
+        kind: pinned ? '채팅 내 별도의 연결 프로필' : '기본 연결 프로필',
+        warning: pin && !pinned ? '이 채팅의 별도 연결 프로필이 삭제되었습니다. 기본 연결 프로필을 적용합니다.' : '',
     };
 }
 
