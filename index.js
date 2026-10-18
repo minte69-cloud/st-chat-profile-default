@@ -52,15 +52,27 @@ export function activate() {
         panel.id = 'chat-profile-default';
         // Static markup only; profile names are inserted using Option/textContent.
         panel.innerHTML = `
-                    <h3>채팅별 연결 프로필</h3>
-                    <div data-chat class="chat-profile-current"></div>
-                    <label><input type="checkbox" data-enabled> 자동 전환 사용</label>
-                    <label>기본 연결 프로필 B<select class="text_pole" data-default></select></label>
-                    <label>현재 개별 채팅의 예외 A<select class="text_pole" data-pin></select></label>
-                    <small>예외를 지정한 채팅만 A를 사용합니다. 나머지는 모두 기본 B로 돌아갑니다.</small>
-                    <div data-status role="status" aria-live="polite"></div>
-                    <button type="button" class="menu_button" data-apply>지금 규칙 적용</button>
-                    <small class="chat-profile-save-note">선택하면 바로 저장됩니다. 닫아도 자동 전환은 계속 동작합니다.</small>`;
+            <header class="chat-profile-header">
+                <h3>채팅별 연결 프로필</h3>
+                <div data-chat class="chat-profile-current"></div>
+            </header>
+            <label class="chat-profile-toggle checkbox_label">
+                <input type="checkbox" data-enabled><span>자동 전환 사용</span>
+            </label>
+            <div class="chat-profile-fields">
+                <label class="chat-profile-field"><span>기본 연결 프로필 B</span>
+                    <select class="text_pole" data-default></select>
+                </label>
+                <label class="chat-profile-field"><span>이 채팅의 예외 프로필 A</span>
+                    <select class="text_pole" data-pin></select>
+                </label>
+                <small>예외가 없는 채팅에서는 기본 B를 사용합니다.</small>
+            </div>
+            <div data-status class="chat-profile-status" role="status" aria-live="polite"></div>
+            <footer class="chat-profile-actions">
+                <small>변경 사항은 자동 저장됩니다.</small>
+                <button type="button" class="menu_button chat-profile-apply" data-apply>현재 채팅에 적용</button>
+            </footer>`;
         panel.querySelector('[data-enabled]').addEventListener('change', event => {
             const context = getContext();
             settings(context).enabled = event.target.checked;

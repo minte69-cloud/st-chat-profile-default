@@ -1,11 +1,68 @@
-#chat-profile-default { text-align: left; width: 100%; }
-#chat-profile-default > label {
-    display: block;
-    margin: 0.6em 0;
+#chat-profile-default {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+    min-width: 0;
+    padding: 4px;
+    text-align: left;
+    line-height: 1.5;
 }
-#chat-profile-default select { width: 100%; margin-top: 0.25em; }
-#chat-profile-default [data-status] { margin: 0.65em 0; overflow-wrap: anywhere; }
-#chat-profile-default small { opacity: 0.8; }
-#chat-profile-default .chat-profile-current { opacity: 0.85; overflow-wrap: anywhere; margin-bottom: 1em; }
-#chat-profile-default .chat-profile-save-note { display: block; margin-top: 0.75em; }
+#chat-profile-default h3 { margin: 0 0 6px; font-size: 1.15em; }
+#chat-profile-default .chat-profile-current { font-size: 0.85em; opacity: 0.75; overflow-wrap: anywhere; }
+#chat-profile-default .chat-profile-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 9px;
+    margin: 0;
+    cursor: pointer;
+}
+#chat-profile-default .chat-profile-toggle input { flex: 0 0 auto; width: auto; margin: 0; }
+#chat-profile-default .chat-profile-fields { display: flex; flex-direction: column; gap: 16px; }
+#chat-profile-default .chat-profile-field { display: flex; flex-direction: column; gap: 7px; margin: 0; min-width: 0; }
+#chat-profile-default select.text_pole {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    min-height: 38px;
+    margin: 0;
+    padding: 7px 10px;
+    font: inherit;
+}
+#chat-profile-default small { font-size: 0.8em; opacity: 0.75; }
+#chat-profile-default .chat-profile-status {
+    border: 1px solid var(--SmartThemeBorderColor, rgba(128, 128, 128, 0.35));
+    border-radius: 8px;
+    padding: 11px 12px;
+    font-size: 0.9em;
+    overflow-wrap: anywhere;
+}
+#chat-profile-default .chat-profile-status:empty { display: none; }
+#chat-profile-default .chat-profile-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+}
+#chat-profile-default button.chat-profile-apply {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: auto;
+    min-width: max-content;
+    min-height: 38px;
+    margin: 0 0 0 auto;
+    padding: 8px 14px;
+    white-space: nowrap;
+    word-break: normal;
+    writing-mode: horizontal-tb;
+    font: inherit;
+    line-height: 1.3;
+    border-radius: 6px;
+}
 #chat-profile-default-menu button { width: 100%; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; font: inherit; }
