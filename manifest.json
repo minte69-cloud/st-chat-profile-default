@@ -1,0 +1,17 @@
+{
+  "display_name": "채팅별 연결 프로필 · 기본 + 예외",
+  "loading_order": 100,
+  "dependencies": [
+    "connection-manager"
+  ],
+  "js": "index.js",
+  "css": "style.css",
+  "author": "Codex",
+  "version": "1.0.0",
+  "minimum_client_version": "1.19.0",
+  "auto_update": false,
+  "hooks": {
+    "activate": "activate"
+  },
+  "homePage": "https://github.com/minte69-cloud/st-chat-profile-default"
+}

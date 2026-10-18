@@ -1,0 +1,7 @@
+#chat-profile-default .inline-drawer-content > label {
+    display: block;
+    margin: 0.6em 0;
+}
+#chat-profile-default select { width: 100%; margin-top: 0.25em; }
+#chat-profile-default [data-status] { margin: 0.65em 0; overflow-wrap: anywhere; }
+#chat-profile-default small { opacity: 0.8; }
