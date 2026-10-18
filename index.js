@@ -10,6 +10,7 @@ export function activate() {
     let panel;
     let lastStatus = '';
     let scheduled;
+    let dialogOpen = false;
     const controller = createController(getContext, text => {
         lastStatus = text;
         if (panel) panel.querySelector('[data-status]').textContent = text;
@@ -40,32 +41,26 @@ export function activate() {
         const pin = panel.querySelector('[data-pin]');
         populate(pin, '예외 없음 → 기본 B 사용', hasChat(context) ? context.chatMetadata?.[KEY]?.profileId : '', profiles);
         pin.disabled = !hasChat(context);
+        panel.querySelector('[data-chat]').textContent = hasChat(context)
+            ? `현재 채팅: ${context.chatId}` : '열린 채팅 없음 · 채팅을 열면 예외를 지정할 수 있습니다.';
         panel.querySelector('[data-status]').textContent = lastStatus;
     }
 
     function mount() {
         if (panel) return;
-        const container = document.getElementById('extensions_settings2') || document.getElementById('extensions_settings');
-        if (!container) throw new Error('확장 설정 영역을 찾을 수 없습니다.');
         panel = document.createElement('div');
         panel.id = 'chat-profile-default';
         // Static markup only; profile names are inserted using Option/textContent.
         panel.innerHTML = `
-            <div class="inline-drawer">
-                <div class="inline-drawer-toggle inline-drawer-header">
-                    <b>채팅별 연결 프로필 · 기본 + 예외</b>
-                    <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
-                </div>
-                <div class="inline-drawer-content">
+                    <h3>채팅별 연결 프로필</h3>
+                    <div data-chat class="chat-profile-current"></div>
                     <label><input type="checkbox" data-enabled> 자동 전환 사용</label>
                     <label>기본 연결 프로필 B<select class="text_pole" data-default></select></label>
                     <label>현재 개별 채팅의 예외 A<select class="text_pole" data-pin></select></label>
                     <small>예외를 지정한 채팅만 A를 사용합니다. 나머지는 모두 기본 B로 돌아갑니다.</small>
                     <div data-status role="status" aria-live="polite"></div>
                     <button type="button" class="menu_button" data-apply>지금 규칙 적용</button>
-                </div>
-            </div>`;
-        container.append(panel);
+                    <small class="chat-profile-save-note">선택하면 바로 저장됩니다. 닫아도 자동 전환은 계속 동작합니다.</small>`;
         panel.querySelector('[data-enabled]').addEventListener('change', event => {
             const context = getContext();
             settings(context).enabled = event.target.checked;
@@ -95,10 +90,45 @@ export function activate() {
         render();
     }
 
+    async function openManager() {
+        if (dialogOpen) return;
+        dialogOpen = true;
+        try {
+            mount();
+            render();
+            const { Popup, POPUP_TYPE } = getContext();
+            await new Popup(panel, POPUP_TYPE.TEXT, '', {
+                okButton: '닫기', cancelButton: false,
+                allowVerticalScrolling: true, leftAlign: true,
+            }).show();
+        } catch (error) {
+            console.error('[chat-profile-default] Could not open manager', error);
+            globalThis.toastr?.error('연결 프로필 관리 창을 열 수 없습니다. 페이지를 새로고침하세요.');
+        } finally {
+            dialogOpen = false;
+        }
+    }
+
+    function mountMenu() {
+        if (document.getElementById('chat-profile-default-menu')) return;
+        const menu = document.getElementById('extensionsMenu');
+        if (!menu) throw new Error('요술봉 메뉴를 찾을 수 없습니다.');
+        const item = document.createElement('div');
+        item.id = 'chat-profile-default-menu';
+        item.className = 'extension_container';
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'list-group-item flex-container flexGap5';
+        button.innerHTML = '<i class="fa-solid fa-plug" aria-hidden="true"></i><span>채팅별 연결 프로필</span>';
+        button.addEventListener('click', () => { void openManager(); });
+        item.append(button);
+        menu.append(item);
+    }
+
     // APP_READY is replayed by ST's event emitter if initialization already ended.
     // Defer asynchronous switching as recommended by ST's extension documentation.
     eventSource.on(eventTypes.APP_READY, () => {
-        mount();
+        mountMenu();
         scheduleApply();
     });
     eventSource.on(eventTypes.CHAT_CHANGED, () => {

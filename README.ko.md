@@ -9,11 +9,13 @@ SillyTavern **1.18.0 / 1.19.0**용 독립 서드파티 UI 확장입니다. JS-Sl
 1. ZIP을 풀어 `chat-profile-default` 폴더를 얻습니다.
 2. SillyTavern 설치 폴더 안의 `data/<사용자 핸들>/extensions/`에 이 폴더를 넣습니다. 기본 계정은 보통 `data/default-user/extensions/`입니다. `chat-profile-default/manifest.json`이 바로 보여야 합니다. 폴더가 이중으로 중첩되지 않게 하세요.
 3. SillyTavern 페이지를 새로고침합니다. 확장 관리에서 내장 **Connection Manager**가 켜져 있어야 합니다.
-4. 확장 설정의 **채팅별 연결 프로필 · 기본 + 예외**를 펼칩니다.
+4. 채팅 입력창 옆 **요술봉 → 채팅별 연결 프로필**을 눌러 관리 창을 엽니다.
 
 모든 사용자에게 설치하려면 `public/scripts/extensions/third-party/chat-profile-default/`에 넣을 수도 있습니다. 두 위치에 중복 설치하지 마세요. Docker에서는 컨테이너에 연결된 실제 데이터 폴더를 사용하세요. ZIP 파일 자체를 ‘확장 설치’ URL 칸에 넣는 방식은 아닙니다.
 
 ## 사용: B는 한 번, A는 필요한 채팅에만
+
+1.1.0부터 관리 위치는 **채팅 입력창 옆 요술봉 → 채팅별 연결 프로필**입니다. 별도 창에서 설정하며 닫아도 자동 전환은 계속 동작합니다. 기본 B와 기존 채팅 예외를 다시 지정할 필요는 없습니다. 현재 열린 채팅 이름이 창 상단에 표시됩니다. 채팅이 없으면 예외 선택은 비활성화됩니다.
 
 1. SillyTavern의 Connection Manager에서 사용할 연결 프로필 A와 B를 먼저 저장합니다. A/B는 예시 이름이며 실제 이름은 자유롭습니다.
 2. 이 확장에서 **기본 연결 프로필 B**를 선택합니다. **자동 전환 사용**은 켜 둡니다.
@@ -49,4 +51,3 @@ SillyTavern **1.18.0 / 1.19.0**용 독립 서드파티 UI 확장입니다. JS-Sl
 실제 사용자의 SillyTavern 서버와 API 계정에서 실접속 테스트한 것은 아닙니다. 포함한 `VALIDATION.ko.md`에서 검증 범위를 확인하세요.
 
 라이선스: MIT (`LICENSE`).
-

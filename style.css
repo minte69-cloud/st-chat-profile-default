@@ -1,7 +1,11 @@
-#chat-profile-default .inline-drawer-content > label {
+#chat-profile-default { text-align: left; width: 100%; }
+#chat-profile-default > label {
     display: block;
     margin: 0.6em 0;
 }
 #chat-profile-default select { width: 100%; margin-top: 0.25em; }
 #chat-profile-default [data-status] { margin: 0.65em 0; overflow-wrap: anywhere; }
 #chat-profile-default small { opacity: 0.8; }
+#chat-profile-default .chat-profile-current { opacity: 0.85; overflow-wrap: anywhere; margin-bottom: 1em; }
+#chat-profile-default .chat-profile-save-note { display: block; margin-top: 0.75em; }
+#chat-profile-default-menu button { width: 100%; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; font: inherit; }
