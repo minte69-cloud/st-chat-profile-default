@@ -1,6 +1,6 @@
 # 채팅별 연결 프로필 · 기본 + 예외
 
-SillyTavern **1.19.0**용 독립 서드파티 확장입니다.
+SillyTavern **1.18.0 / 1.19.0**용 독립 서드파티 확장입니다.
 
 **기본 연결 프로필 B를 한 번 설정하고, 특정 개별 채팅에만 예외 연결 프로필 A를 지정합니다.** 예외가 없는 기존·새 채팅으로 이동하면 자동으로 기본 B로 돌아갑니다. JS-Slash-Runner는 필요하지 않습니다.
 
@@ -13,6 +13,8 @@ https://github.com/minte69-cloud/st-chat-profile-default
 ```
 
 설치 후 페이지를 새로고침하고 내장 **Connection Profiles / Connection Manager**를 켜세요.
+
+기존 1.0.0에서 최소 버전 오류가 표시되었다면 **확장 관리 → 이 확장 업데이트** 후 페이지를 새로고침하세요. 1.0.1은 1.18.0부터 로드됩니다.
 
 ## 사용
 
@@ -29,3 +31,4 @@ https://github.com/minte69-cloud/st-chat-profile-default
 ZIP으로 먼저 수동 설치했다면 기존 확장을 비활성화하고 페이지를 새로고침한 뒤 기존 `chat-profile-default` 설치 폴더를 삭제하고 주소로 설치하세요. 같은 확장을 두 개 동시에 설치하지 마세요. 이 확장 자체 설정 키는 같으므로 같은 계정의 저장된 기본값·채팅 예외를 계속 사용합니다.
 
 [자세한 한국어 안내](README.ko.md) · [검증 범위](VALIDATION.ko.md) · [MIT 라이선스](LICENSE)
+

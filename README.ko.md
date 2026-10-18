@@ -1,6 +1,6 @@
 # 채팅별 연결 프로필 · 기본 + 예외
 
-SillyTavern **1.19.0**용 독립 서드파티 UI 확장입니다. JS-Slash-Runner 없이 동작합니다.
+SillyTavern **1.18.0 / 1.19.0**용 독립 서드파티 UI 확장입니다. JS-Slash-Runner 없이 동작합니다.
 
 기본 연결 프로필 B를 한 번 지정하면, 예외가 없는 기존/새 채팅은 전부 B를 사용합니다. 원하는 **개별 채팅**에만 연결 프로필 A를 지정하세요. 같은 캐릭터의 다른 채팅도 예외가 없으면 B입니다. 그룹 채팅도 해당 채팅의 메타데이터를 기준으로 동작합니다.
 
@@ -36,6 +36,8 @@ SillyTavern **1.19.0**용 독립 서드파티 UI 확장입니다. JS-Slash-Runne
 
 ## 확인한 공식 API / 소스
 
+1.0.1에서는 [1.18.0 Connection Manager](https://github.com/SillyTavern/SillyTavern/blob/1.18.0/public/scripts/extensions/connection-manager/index.js)도 비교했습니다. 사용하는 연결 프로필 명령, 이벤트, context 필드와 activate 로딩이 존재하여 최소 지원 버전을 1.18.0으로 조정했습니다. 1.0.0의 버전 제한 오류가 표시되면 확장 관리에서 이 확장을 업데이트하고 페이지를 새로고침하세요.
+
 2026-10-18 확인. release 브랜치의 버전과 1.19.0 태그를 기준으로 조사했습니다. 이후 SillyTavern 내부 API 변경 시 수정이 필요할 수 있습니다.
 
 - [공식 UI 확장 문서](https://docs.sillytavern.app/for-contributors/writing-extensions/): manifest 의존성, `activate`, `getContext`, 영구 설정, 채팅 메타데이터.
@@ -46,3 +48,4 @@ SillyTavern **1.19.0**용 독립 서드파티 UI 확장입니다. JS-Slash-Runne
 실제 사용자의 SillyTavern 서버와 API 계정에서 실접속 테스트한 것은 아닙니다. 포함한 `VALIDATION.ko.md`에서 검증 범위를 확인하세요.
 
 라이선스: MIT (`LICENSE`).
+
