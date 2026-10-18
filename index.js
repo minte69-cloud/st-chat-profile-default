@@ -15,7 +15,7 @@ export function activate() {
     const controller = createController(getContext, text => {
         lastStatus = text;
         if (panel) panel.querySelector('[data-status]').textContent = text;
-    }, text => globalThis.toastr?.warning(text, '채팅별 연결 프로필', { escapeHtml: true }));
+    }, text => globalThis.toastr?.warning(text, '채팅별 연결 프로필 설정', { escapeHtml: true }));
 
     function scheduleApply() {
         clearTimeout(scheduled);
@@ -54,7 +54,7 @@ export function activate() {
         // Static markup only; profile names are inserted using Option/textContent.
         panel.innerHTML = `
             <header class="chat-profile-header">
-                <h3>채팅별 연결 프로필</h3>
+                <h3>채팅별 연결 프로필 설정</h3>
                 <div data-chat class="chat-profile-current"></div>
             </header>
             <label class="chat-profile-toggle checkbox_label">
@@ -151,7 +151,7 @@ export function activate() {
         button.setAttribute('role', 'button');
         button.tabIndex = 0;
         button.className = 'list-group-item flex-container flexGap5';
-        button.innerHTML = '<div class="fa-solid fa-plug extensionsMenuExtensionButton" aria-hidden="true"></div><span>채팅별 연결 프로필</span>';
+        button.innerHTML = '<div class="fa-solid fa-plug extensionsMenuExtensionButton" aria-hidden="true"></div><span>채팅별 연결 프로필 설정</span>';
         button.addEventListener('click', () => { void openManager(); });
         button.addEventListener('keydown', event => {
             if (event.key === 'Enter' || event.key === ' ') {
