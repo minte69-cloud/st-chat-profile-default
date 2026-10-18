@@ -16,6 +16,9 @@ export function resolveTarget(context) {
     const config = settings(context);
     if (!config.enabled) return { idle: '자동 전환 꺼짐' };
     if (!config.defaultId) return { idle: '먼저 기본 연결 프로필 B를 선택하세요.' };
+    // Regex presets in native profiles reload the chat, even on the home screen
+    // in ST 1.18. Defer all profile application until a real chat is open.
+    if (!hasChat(context)) return { idle: '채팅을 열면 해당 연결 프로필을 적용합니다.' };
     const profiles = context.extensionSettings.connectionManager?.profiles ?? [];
     const pin = hasChat(context) ? context.chatMetadata?.[KEY]?.profileId : '';
     const pinned = pin && profiles.find(p => p.id === pin);

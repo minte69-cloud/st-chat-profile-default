@@ -9,10 +9,16 @@ export function activate() {
     const { eventSource, eventTypes } = getContext();
     let panel;
     let lastStatus = '';
+    let scheduled;
     const controller = createController(getContext, text => {
         lastStatus = text;
         if (panel) panel.querySelector('[data-status]').textContent = text;
     }, text => globalThis.toastr?.warning(text, '채팅별 연결 프로필', { escapeHtml: true }));
+
+    function scheduleApply() {
+        clearTimeout(scheduled);
+        scheduled = setTimeout(() => { void controller.request(); }, 0);
+    }
 
     function populate(select, blank, value, profiles) {
         select.replaceChildren(new Option(blank, ''));
@@ -93,18 +99,22 @@ export function activate() {
     // Defer asynchronous switching as recommended by ST's extension documentation.
     eventSource.on(eventTypes.APP_READY, () => {
         mount();
-        setTimeout(() => { void controller.request(); }, 0);
+        scheduleApply();
     });
     eventSource.on(eventTypes.CHAT_CHANGED, () => {
         render();
-        return controller.request();
+        // Native /profile may apply regex-preset -> reloadCurrentChat -> emit
+        // CHAT_CHANGED. Returning the worker promise here deadlocks the native
+        // reload against the profile call which is waiting for that reload.
+        // Defer until the emitting chat-load/reload stack has completed too.
+        scheduleApply();
     });
     for (const type of [eventTypes.CONNECTION_PROFILE_CREATED, eventTypes.CONNECTION_PROFILE_UPDATED, eventTypes.CONNECTION_PROFILE_DELETED]) {
         eventSource.on(type, () => {
             render();
             // Native profile editing emits more events after this one; do not
             // nest another native profile application inside its event handler.
-            setTimeout(() => { void controller.request(); }, 0);
+            scheduleApply();
         });
     }
     eventSource.on(eventTypes.CONNECTION_PROFILE_LOADED, () => { render(); });
