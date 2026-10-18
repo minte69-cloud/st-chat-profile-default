@@ -147,11 +147,18 @@ export function activate() {
         const item = document.createElement('div');
         item.id = 'chat-profile-default-menu';
         item.className = 'extension_container';
-        const button = document.createElement('button');
-        button.type = 'button';
+        const button = document.createElement('div');
+        button.setAttribute('role', 'button');
+        button.tabIndex = 0;
         button.className = 'list-group-item flex-container flexGap5';
-        button.innerHTML = '<i class="fa-solid fa-plug" aria-hidden="true"></i><span>채팅별 연결 프로필</span>';
+        button.innerHTML = '<div class="fa-solid fa-plug extensionsMenuExtensionButton" aria-hidden="true"></div><span>채팅별 연결 프로필</span>';
         button.addEventListener('click', () => { void openManager(); });
+        button.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                void openManager();
+            }
+        });
         item.append(button);
         menu.append(item);
     }

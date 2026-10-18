@@ -73,4 +73,3 @@
     #chat-profile-default button.chat-profile-apply { transition: none; }
     #chat-profile-default button.chat-profile-apply:not(:disabled):active { transform: none; }
 }
-#chat-profile-default-menu button { width: 100%; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; font: inherit; }
